@@ -45,37 +45,13 @@
 </div> <!-- Reveal -->
 
 <!-- <script src="build/lib/js/head.min.js"></script> -->
-<script src="build/lib/js/head.min.js"></script>
-<script type="module" src="build/js/reveal.js"></script>
+<!-- <script src="build/lib/js/head.min.js"></script>
+<script type="module" src="build/js/reveal.js"></script> -->
 
 
+<script src="dist/reveal.js"></script>
 <script>
-    // https://github.com/hakimel/reveal.js#configuration
-    Reveal.initialize({
-        controls: true,
-        progress: true,
-        history: true,
-        center: false,
-        transition: 'fade',
-    
-        d3sections: {
-    
-         
-             runLastState: true, //default true
-    
-             keepIframe: false, // default: false
-
-             mapPath: false, // default: false
-
-             tryFallbackURL: false, 
-        },
-    
-        dependencies: [
-    
-            { src: 'build/D3sections.js' },
-    
-        ]
-    });
-    </script>
+  Reveal.initialize({ transition: 'none' });
+</script>
 
 </html>

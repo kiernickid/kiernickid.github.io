@@ -1,4 +1,4 @@
-var d3sections = window.d3sections || (function(){
+var D3sections = window.D3Sections || (function(){
     // check if configurations need to be overwritten
     const config = Reveal.getConfig() || {};
     config.d3sections = config.d3sections || {};

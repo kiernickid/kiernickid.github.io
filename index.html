@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href="">
 
-    <title>Electrify The Roads</title>
+    <title>Stocks At The Top</title>
 
     <meta name="description" content="Final Project for UIUC's CS498 Data Visualizaton with Dr. John Hart">
     <meta name="author" content="David Kiernicki">
@@ -25,33 +25,52 @@
 
 <!-- Title Slide -->
 <section>
-    <h1>Electrify The Roads</h1>
+    <h1>Stocks At The Top</h1>
     <h3>David Kiernicki</h3>
     <h4>CS498 Data Visualization</h4>
 </section>
 <!-- About this visualization -->
 <section>
-    <h2>About the visualization</h2>
-    <p align="left"><small><strong>Hybrid Structure</strong> - I chose to build an interactive slideshow using the reveal.js presentation framework. By using the right and left arrows on the keyboard or clicking the button, the reader is able to move around between various scenes while keeping track of progress by looking at the bar at the very bottom. The user is also able to interact with the d3 charts as described later on.</small></p>
-    <p align="left"><small><strong>Scenes</strong> - The slides in my slideshow correspond to scenes, and I used a consistent beige background template styled by css. To tell my story, I ordered my charts with the bubble chart first to give an overview of the top cryptocurrencies before diving deeper with the line graphs to portray exact price patterns of some of the most prominent cryptos.</small></p>
-    <p align="left"><small><strong>Annotations</strong> - In my line graph I used two annotations to highlight 2 of the most significant events in the Bitcoin timeline. The first event was the peak that Bitcoin enjoyed towards the end of 2017 when the price of a single Bitcoin neared $20K! The other event was when the Bitcoin fork occurred in August 2017, giving rise to Bitcoin Cash, and we can clearly see the (red) BCH line come up at this time. The annotations are cleared when the user leaves this particular scene.</small></p>
+    <h2>The Data</h2>
+    <p align="left"><small>Info about the data</small></p>
 </section>
+<!-- Chart 1 -->
 <section>
-    <h2>About the visualization (cont.)</h2>
-    <p align="left"><small><strong>Parameters</strong> - There are several parameters that my visualization utilizes such as the current slide state in the context of the overall presentation (slide number), whether or not a particular line should be displayed based on whether or not the symbol has been clicked, and whether or not a mouseover has occurred for the bubble chart.</small></p>
-    <p align="left"><small><strong>Triggers</strong> - There are a few triggers that my narrative visualization utilizes. As mentioned above, the pressing right/left arrow key or clicking the corresponding button will cause the slide to advance or go back. For the bubble chart, mousing over each bubble will display a textbox with the name and actual marketcap value. Finally, clicking the crypto symbol for my line graph causes the corresponding crypto graph to be shown or hidden. There is a note at the bottom of the slides containing charts which indicate the available triggers.</small></p>
+    <h3>Fortune 50</h3>
+    <div class="row no-margin-top">
+        <div class="fig-container no-margin-top" data-file="charts/fortune50bubble.html"></div>
+    </div>
+    <div class="no-margin-top" style="position: absolute; top: 650px">
+        <p><small>Mouseover To Display Full Company Name and Revenue (in millions)</small></p>
+    </div>
 </section>
+
+<section>
+    <h2>References</h2>
+    <ol>
+        <li><a href="https://github.com/hakimel/reveal.js/">HTML Presentation Framework - reveal.js</a></li>
+    </ol>
+</section> 
 </div> <!-- slides -->
 </div> <!-- Reveal -->
-
-<!-- <script src="build/lib/js/head.min.js"></script> -->
-<!-- <script src="build/lib/js/head.min.js"></script>
-<script type="module" src="build/js/reveal.js"></script> -->
 
 
 <script src="build/dist/reveal.js"></script>
 <script>
-  Reveal.initialize({ transition: 'none' });
+  Reveal.initialize({   
+    controls: true,
+    progress: true,
+    history: true,
+    center: false,
+    transition: 'fade',
+    // Reveal.js plugins
+    dependencies: [
+
+        { src: 'build/plugin/reveald3.js' },
+
+    ]
+});
+
 </script>
 
 </html>

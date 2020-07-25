@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<style>
+  /* set the CSS */
+
+  body {
+    font: 10px Arial;
+  }
+
+  path {
+    stroke: steelblue;
+    stroke-width: 1;
+    fill: none;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+
+  .legend {
+    font-size: 10px;
+    font-weight: bold;
+    text-anchor: middle;
+  }
+</style>
+<body>
+  <!-- load the d3.js library -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
+  <script>
+    var margin = { top: 30, right: 40, bottom: 70, left: 50 },
+      width = 700 - margin.left - margin.right,
+      height = 380 - margin.top - margin.bottom;
+
+    var parseDate = d3.timeParse("%B %d, %Y");
+
+    var x = d3.scaleTime().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
+
+    var line = d3
+      .line()
+      .x(function (d) {
+        return x(d.date);
+      })
+      .y(function (d) {
+        return y(d.close);
+      });
+
+    var svg = d3
+      .select("body")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.csv("combined_stocks_10.csv", function (error, data) {
+      data.forEach(function (d) {
+        d.date = parseDate(d.date);
+        d.close = +d.close;
+      });
+
+      var filtered = data.filter(function (d) {
+        return (
+          (d.date > new Date(2009, 1, 1)) & (d.date < new Date(2017, 1, 1))
+        );
+      });
+
+      // Scale the range of the data
+      x.domain(
+        d3.extent(filtered, function (d) {
+          return d.date;
+        })
+      );
+      y.domain([
+        0,
+        d3.max(filtered, function (d) {
+          return d.close;
+        }),
+      ]);
+
+      // Nest the entries by symbol
+      var dataNest = d3
+        .nest()
+        .key(function (d) {
+          return d.symbol;
+        })
+        .entries(filtered);
+
+      // set the colour scale
+      var color = d3
+        .scaleOrdinal()
+        .domain([
+          "WMT",
+          "XOM",
+          "AAPL",
+          "BRKB",
+          "AMZN",
+          "UNH",
+          "MCK",
+          "CVS",
+          "T",
+          "ABC",
+        ])
+        .range([
+          "#a83232",
+          "#a88732",
+          "#4aa832",
+          "#32a8a6",
+          "#3251a8",
+          "#7932a8",
+          "#a83290",
+          "#de0ba2",
+          "#a8a4a3",
+          "#e88974",
+        ]);
+
+      legendSpace = width / 10;
+
+      var opacities = d3
+        .map()
+        .set("WMT", 1)
+        .set("XOM", 1)
+        .set("AAPL", 1)
+        .set("BRKB", 1)
+        .set("AMZN", 1)
+        .set("UNH", 1)
+        .set("MCK", 1)
+        .set("CVS", 1)
+        .set("T", 1)
+        .set("ABC", 1);
+
+      dataNest.forEach(function (d, i) {
+        svg
+          .append("path")
+          .attr("class", "line")
+          .attr("clip-path", "url(#clip)")
+          .style("stroke", function () {
+            // Add the colours dynamically
+            return (d.color = color(d.key));
+          })
+          .attr("id", "tag" + d.key.replace(/\s+/g, "")) // assign an ID
+          .attr("d", line(d.values));
+
+        // Add the Legend
+        svg
+          .append("text")
+          .attr("x", legendSpace / 2 + i * legendSpace) // space legend
+          .attr("y", height + margin.bottom / 2 + 25)
+          .attr("class", "legend") // style the legend
+          .style("fill", function () {
+            // Add the colours dynamically
+            return (d.color = color(d.key));
+          })
+          .on("click", function () {
+            // Determine if current line is visible
+            var active = d.active ? false : true,
+              newOpacity = active ? 0 : 1;
+            // Hide or show the elements based on the ID
+            d3.select("#tag" + d.key.replace(/\s+/g, ""))
+              .transition()
+              .duration(50)
+              .style("opacity", newOpacity);
+            opacities.set(d.key, newOpacity);
+            // Update whether or not the elements are active
+            d.active = active;
+          })
+          .text(d.key);
+        console.log(opacities);
+      });
+      var mouseG = svg.append("g").attr("class", "mouse-over-effects");
+
+      mouseG
+        .append("path") // this is the black vertical line to follow mouse
+        .attr("class", "mouse-line")
+        .style("stroke", "black")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+      var lines = document.getElementsByClassName("line");
+
+      var mousePerLine = mouseG
+        .selectAll(".mouse-per-line")
+        .data(dataNest)
+        .enter()
+        .append("g")
+        .attr("class", "mouse-per-line");
+
+      mousePerLine
+        .append("circle")
+        .attr("r", 7)
+        .style("stroke", function (d) {
+          return color(d.key);
+        })
+        .style("fill", "none")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+      mousePerLine.append("text").attr("transform", "translate(10,3)");
+
+      mouseG
+        .append("svg:rect") // append a rect to catch mouse movements on canvas
+        .attr("width", width) // can't catch mouse events on a g element
+        .attr("height", height)
+        .attr("fill", "none")
+        .attr("pointer-events", "all")
+        .on("mouseout", function () {
+          // on mouse out hide line, circles and text
+          d3.select(".mouse-line").style("opacity", "0");
+          d3.selectAll(".mouse-per-line circle").style("opacity", "0");
+          d3.selectAll(".mouse-per-line text").style("opacity", "0");
+        })
+        .on("mouseover", function () {
+          // on mouse in show line, circles and text
+          d3.select(".mouse-line").style("opacity", "1");
+          d3.selectAll(".mouse-per-line circle").style("opacity", function (d) {
+            return opacities.get(d.key);
+          });
+          d3.selectAll(".mouse-per-line text").style("opacity", function (d) {
+            return opacities.get(d.key);
+          });
+        })
+        .on("mousemove", function () {
+          // mouse moving over canvas
+          var mouse = d3.mouse(this);
+          d3.select(".mouse-line").attr("d", function () {
+            var d = "M" + mouse[0] + "," + height;
+            d += " " + mouse[0] + "," + 0;
+            return d;
+          });
+
+          d3.selectAll(".mouse-per-line").attr("transform", function (d, i) {
+            // console.log(width/mouse[0])
+            var xDate = x.invert(mouse[0]),
+              bisect = d3.bisector(function (d) {
+                return d.date;
+              }).right;
+            idx = bisect(d.values, xDate);
+
+            var beginning = 0,
+              end = lines[i].getTotalLength(),
+              target = null;
+
+            while (true) {
+              target = Math.floor((beginning + end) / 2);
+              pos = lines[i].getPointAtLength(target);
+              if (
+                (target === end || target === beginning) &&
+                pos.x !== mouse[0]
+              ) {
+                break;
+              }
+              if (pos.x > mouse[0]) end = target;
+              else if (pos.x < mouse[0]) beginning = target;
+              else break; //position found
+            }
+
+            d3.select(this).select("text").text(y.invert(pos.y).toFixed(2));
+
+            return "translate(" + mouse[0] + "," + pos.y + ")";
+          });
+        });
+
+      var xAxis = svg
+        .append("g")
+        .attr("class", "x-axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // Add the Y Axis
+      var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
+
+      const annotations = [
+        {
+          note: {
+            label: "Stimulus Bill Passed",
+            align: "middle",
+          },
+          connector: {
+            align: "middle",
+          },
+          x: 60,
+          y: 125,
+          dy: -100,
+        },
+        {
+          note: {
+            label: "Great Recession Ends",
+            align: "middle",
+          },
+          connector: {
+            align: "middle",
+          },
+          x: 80,
+          y: 150,
+          dy: -100,
+        }
+      ];
+
+      // Add annotation to the chart
+      const makeAnnotations = d3.annotation().annotations(annotations);
+      d3.select("svg").append("g").call(makeAnnotations);
+    });
+  </script>
+</body>

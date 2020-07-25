@@ -1,10 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0; background-image: url("stocks.jpg")}
+.mySlides {display: none;
+    width: 100%;
+    height: 100%;
+}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  height: auto;
+  width: auto;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  /* margin-top: auto; */
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  opacity: 1;
+  background-color: white;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(150, 145, 145, 0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: blue;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+.headingwriting {
+  color: white;
+  font-size: 36px;
+  position: relative;
+  top: 0;
+  text-align: center;
+}
+.yearwriting {
+  color: white;
+  font-size: 24px;
+  position: relative;
+  top: 0;
+  text-align: center;
+}
+
+.writing {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+</style>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="">
 
-    <title>Stocks At The Top</title>
+    <title>Stock Performance By President</title>
 
     <meta name="description" content="Final Project for UIUC's CS498 Data Visualizaton with Dr. John Hart">
     <meta name="author" content="David Kiernicki">
@@ -14,63 +143,115 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" href="build/dist/reveal.css">
-    <link rel="stylesheet" href="build/dist/theme/simple.css">
+    <!-- <link rel="stylesheet" href="build/dist/reveal.css">
+    <link rel="stylesheet" href="build/dist/theme/simple.css"> -->
     <!-- <link rel="stylesheet" href="build/dist/theme/simple.css" /> -->
 
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
 
-<!-- Title Slide -->
-<section>
-    <h1>Stocks At The Top</h1>
-    <h3>David Kiernicki</h3>
-    <h4>CS498 Data Visualization</h4>
-</section>
-<!-- About this visualization -->
-<section>
-    <h2>The Data</h2>
-    <p align="left"><small>Info about the data</small></p>
-</section>
-<!-- Chart 1 -->
-<section>
-    <h3>Fortune 50</h3>
-    <div class="row no-margin-top">
-        <div class="fig-container no-margin-top" data-file="charts/fortune50bubble.html"></div>
-    </div>
-    <div class="no-margin-top" style="position: absolute; top: 650px">
-        <p><small>Mouseover To Display Full Company Name and Revenue (in millions)</small></p>
-    </div>
-</section>
+<div class="slideshow-container">
 
-<section>
-    <h2>References</h2>
-    <ol>
-        <li><a href="https://github.com/hakimel/reveal.js/">HTML Presentation Framework - reveal.js</a></li>
-    </ol>
-</section> 
-</div> <!-- slides -->
-</div> <!-- Reveal -->
+<div class="mySlides fade">
+  <div class="numbertext">1 / 7</div>
+  <h1 style="text-align: center">Stock Performance By President</h1>
+  <h3 style="text-align: center">David Kiernicki</h3>
+  <h4 style="text-align: center">CS498 Data Visualization</h4>
+</div>
 
+<div class="mySlides fade">
+  <div class="numbertext">2 / 7</div>
+  <h2 class="headingwriting">2019 Fortune 10</h2>
+  <p align="center" class="writing">The top 10 US companies based on revenue in 2019</p>
+  <p align="center"><iframe src='charts/fortune50bubble.html' height="650" width="650" style="background-color: white;">
+  </iframe></p>
+  <p align="center" class="writing"><small>Mouseover To Display Full Company Name and Revenue (in millions)</small></p>
+</div>
 
-<script src="build/dist/reveal.js"></script>
+<div class="mySlides fade">
+    <div class="numbertext">3 / 7 </div>
+    <h2 class="headingwriting">Bill Clinton (D)</h2>
+    <h3 class="yearwriting">1993-2001</h3>
+    <p align="center"><iframe src='charts/clintonstocks.html' height="450" width="700" style="background-color: white;">
+    </iframe></p>
+    <p align="center" class="writing"><small>Mouseover To Display Stock Prices</small></p>
+    <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
+</div>
+<div class="mySlides fade">
+    <div class="numbertext">4 / 7</div>
+    <h2 class="headingwriting">George H.W. Bush (R)</h2>
+    <h3 class="yearwriting">2001-2009</h3>
+    <p align="center"><iframe src='charts/bushstocks.html' height="450" width="700" style="background-color: white;">
+    </iframe></p>
+    <p align="center" class="writing"><small>Mouseover To Display Stock Prices</small></p>
+    <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
+</div>
+<div class="mySlides fade">
+    <div class="numbertext">5 / 7</div>
+    <h2 class="headingwriting">Barack Obama (D)</h2>
+    <h3 class="yearwriting">2009-2017</h3>
+    <p align="center"><iframe src='charts/obamastocks.html' height="450" width="700" style="background-color: white;" >
+    </iframe></p>
+    <p align="center" class="writing"><small>Mouseover To Display Stock Prices</small></p>
+    <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
+</div>
+<div class="mySlides fade">
+    <div class="numbertext">6 / 7</div>
+    <h2 class="headingwriting">Donald Trump (R)</h2>
+    <h3 class="yearwriting">2017-Present</h3>
+    <p align="center"><iframe src='charts/trumpstocks.html' height="450" width="700" style="background-color: white;">
+    </iframe></p>
+    <p align="center" class="writing"><small>Mouseover To Display Stock Prices</small></p>
+    <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
+</div>
+
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span> 
+  <span class="dot" onclick="currentSlide(2)"></span> 
+  <span class="dot" onclick="currentSlide(3)"></span> 
+  <span class="dot" onclick="currentSlide(4)"></span> 
+  <span class="dot" onclick="currentSlide(5)"></span> 
+  <span class="dot" onclick="currentSlide(6)"></span> 
+</div>
+
 <script>
-  Reveal.initialize({   
-    controls: true,
-    progress: true,
-    history: true,
-    center: false,
-    transition: 'fade',
-    // Reveal.js plugins
-    dependencies: [
+var slideIndex = 1;
 
-        { src: 'build/plugin/reveald3.js' },
+showSlides(slideIndex);
 
-    ]
-});
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
 
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+var dots = document.getElementsByClassName("dot");
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
 </script>
 
-</html>
+</body>
+</html> 
+

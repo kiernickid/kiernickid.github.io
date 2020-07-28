@@ -30,7 +30,6 @@
 <body>
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 
   <script>
     var margin = { top: 30, right: 40, bottom: 70, left: 50 },
@@ -275,36 +274,17 @@
       // Add the Y Axis
       var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
 
-      const annotations = [
-        {
-          note: {
-            label: "Stimulus Bill Passed",
-            align: "middle",
-          },
-          connector: {
-            align: "middle",
-          },
-          x: 60,
-          y: 125,
-          dy: -100,
-        },
-        {
-          note: {
-            label: "Great Recession Ends",
-            align: "middle",
-          },
-          connector: {
-            align: "middle",
-          },
-          x: 80,
-          y: 150,
-          dy: -100,
-        }
-      ];
+      svg
+        .append("text")
+        .attr("transform", "translate(" + 100 + " ," + 200 + ")")
+        .style("text-anchor", "middle")
+        .text("<- Great Recession Ends");
 
-      // Add annotation to the chart
-      const makeAnnotations = d3.annotation().annotations(annotations);
-      d3.select("svg").append("g").call(makeAnnotations);
+      svg
+        .append("text")
+        .attr("transform", "translate(" + 75 + " ," + 220 + ")")
+        .style("text-anchor", "middle")
+        .text("<- Stimulus Bill Passed");
     });
   </script>
 </body>

@@ -30,7 +30,6 @@
 <body>
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 
   <script>
     var margin = { top: 30, right: 40, bottom: 70, left: 50 },
@@ -275,38 +274,17 @@
       // Add the Y Axis
       var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
 
-      const annotations = [
-        {
-            note: {
-            label: "9/11 Terrorist Attacks",
-            align: "middle"
-          },
-          connector: {
-            align: "middle"
-         },
-          x: 90,
-          y: 150,
-          dy: -100,
+      svg
+        .append("text")
+        .attr("transform", "translate(" + 110 + " ," + 100 + ")")
+        .style("text-anchor", "middle")
+        .text("<- 9/11 Terrorist Attacks->");
 
-        },
-        {
-            note: {
-            label: "Great Recession Begins",
-            align: "middle"
-          },
-          connector: {
-            align: "middle"
-         },
-          x: 570,
-          y: 125,
-          dy: -100,
-
-        }
-      ];
-
-      // Add annotation to the chart
-      const makeAnnotations = d3.annotation().annotations(annotations);
-      d3.select("svg").append("g").call(makeAnnotations);
+      svg
+        .append("text")
+        .attr("transform", "translate(" + 460 + " ," + 10 + ")")
+        .style("text-anchor", "middle")
+        .text("Great Recession Begins ->");
     });
   </script>
 </body>

@@ -166,22 +166,21 @@ img {vertical-align: middle;}
 <div class="slideshow-container">
 
 <div class="mySlides fade">
-  <div class="numbertext">1 / 6</div>
+  <div class="numbertext">1 / 7</div>
   <h1 class="headingwriting">Stocks and The Presidents</h1>
   <div class="intro">
-    <p>With the 2020 election coming this Fall, there's always a bunch of questions about what will happen if a certain candidate is 
-        elected. Two of the questions that many people ask are "Will one of the candidates cause the stock market to crash? Should I 
+    <p>With the 2020 election coming this Fall, two questions you might be asking yourself are "Will one of the candidates cause the stock market to crash? Should I 
         pull out all of my money just in case it crashes?"
-        <br><br><br>
-        Well, the answer to those questions depends on the stocks you're interested in and the industry. I gathered gathered the stock 
-        for the Fortune 10 companies of 2019 under the last 4 US Presidents. Click through the slides and configure the graphs to your 
-        interest!
+        <br><br><br>        
+        The answer to those questions depends on the stocks you're interested in and the industry. I gathered the historical stock prices
+        for the 2019 Fortune 10 companies under the last 4 US Presidents. Some stocks increase rapidly and are volatile. Some give moderate returns with little variability.
+        Click through the slides and configure the graphs to your interest!
     </p>
   </div>
 </div>
 
 <div class="mySlides fade">
-  <div class="numbertext">2 / 6</div>
+  <div class="numbertext">2 / 7</div>
   <h2 class="headingwriting">2019 Fortune 10</h2>
   <p align="center" class="writing">The top 10 US companies based on revenue in 2019</p>
   <p align="center"><iframe src='charts/fortune50bubble.html' height="600" width="600" style="background-color: white;">
@@ -190,7 +189,7 @@ img {vertical-align: middle;}
 </div>
 
 <div class="mySlides fade">
-    <div class="numbertext">3 / 6 </div>
+    <div class="numbertext">3 / 7</div>
     <h2 class="headingwriting">Bill Clinton (D)</h2>
     <h3 class="yearwriting">1993-2001</h3>
     <p align="center"><iframe src='charts/clintonstocks.html' height="450" width="700" style="background-color: white;">
@@ -199,7 +198,7 @@ img {vertical-align: middle;}
     <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
 </div>
 <div class="mySlides fade">
-    <div class="numbertext">4 / 6</div>
+    <div class="numbertext">4 / 7</div>
     <h2 class="headingwriting">George H.W. Bush (R)</h2>
     <h3 class="yearwriting">2001-2009</h3>
     <p align="center"><iframe src='charts/bushstocks.html' height="450" width="700" style="background-color: white;">
@@ -208,7 +207,7 @@ img {vertical-align: middle;}
     <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
 </div>
 <div class="mySlides fade">
-    <div class="numbertext">5 / 6</div>
+    <div class="numbertext">5 / 7</div>
     <h2 class="headingwriting">Barack Obama (D)</h2>
     <h3 class="yearwriting">2009-2017</h3>
     <p align="center"><iframe src='charts/obamastocks.html' height="450" width="700" style="background-color: white;" >
@@ -217,13 +216,38 @@ img {vertical-align: middle;}
     <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
 </div>
 <div class="mySlides fade">
-    <div class="numbertext">6 / 6</div>
+    <div class="numbertext">6 / 7</div>
     <h2 class="headingwriting">Donald Trump (R)</h2>
     <h3 class="yearwriting">2017-Present</h3>
     <p align="center"><iframe src='charts/trumpstocks.html' height="450" width="700" style="background-color: white;">
     </iframe></p>
     <p align="center" class="writing"><small>Mouseover To Display Stock Prices</small></p>
     <p align="center" class="writing"><small>Click a colored stock symbol to add/remove from chart</small></p>
+</div>
+<div class="mySlides fade">
+    <div class="numbertext">7 / 7</div>
+    <h2 class="headingwriting">References</h2>
+    <div class="intro">
+        <p>Technical</p>
+        <ul>
+            <li>https://bl.ocks.org/d3noob/4db972df5d7efc7d611255d1cc6f3c4f</li>
+            <li>https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168</li>
+            <li>https://www.w3schools.com/howto/howto_js_slideshow.asp</li>
+        </ul>
+        <p>Data</p>
+        <ul>
+            <li>https://github.com/cmusam/fortune500</li>
+            <li>https://www.kaggle.com/borismarjanovic/price-volume-data-for-all-us-stocks-etfs</li>
+        </ul>
+        <p>Annotations</p>
+        <ul>
+            <li>https://millercenter.org/president/bill-clinton/key-events</li>
+            <li>https://millercenter.org/president/george-w-bush/key-events</li>
+            <li>https://millercenter.org/president/barack-obama/key-events</li>
+            <li>https://www.cdc.gov/media/releases/2020/p0121-novel-coronavirus-travel-case.html</li>
+        </ul>
+    </div>
+    
 </div>
 
 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -239,6 +263,7 @@ img {vertical-align: middle;}
   <span class="dot" onclick="currentSlide(4)"></span> 
   <span class="dot" onclick="currentSlide(5)"></span> 
   <span class="dot" onclick="currentSlide(6)"></span> 
+  <span class="dot" onclick="currentSlide(7)"></span> 
 </div>
 
 <script>

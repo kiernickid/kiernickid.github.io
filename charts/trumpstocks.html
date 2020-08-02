@@ -30,12 +30,16 @@
 <body>
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
+
   <script>
     var margin = { top: 30, right: 40, bottom: 70, left: 50 },
       width = 700 - margin.left - margin.right,
       height = 380 - margin.top - margin.bottom;
 
     var parseDate = d3.timeParse("%B %d, %Y");
+
+    var formatPercent = d3.format("%"),
+    formatChange = function(x) { return formatPercent(x); }
 
     var x = d3.scaleTime().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
@@ -46,7 +50,7 @@
         return x(d.date);
       })
       .y(function (d) {
-        return y(d.close);
+        return y(d.ratio);
       });
 
     var svg = d3
@@ -57,30 +61,34 @@
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      var basevalues = d3
+        .map()
+        .set("WMT", 68)
+        .set("XOM", 90)
+        .set("AAPL", 116)
+        .set("BRKB", 163)
+        .set("AMZN", 753)
+        .set("UNH", 161)
+        .set("MCK", 147)
+        .set("CVS", 80)
+        .set("T", 43)
+        .set("ABC", 82);
+
     d3.csv("combined_stocks_10.csv", function (error, data) {
       data.forEach(function (d) {
         d.date = parseDate(d.date);
-        d.close = +d.close;
+        d.ratio = ((d.close / basevalues.get(d.symbol)) - 1) * 100;
       });
 
       var filtered = data.filter(function (d) {
         return (
-          (d.date > new Date(2017, 1, 1)) & (d.date < new Date(2020, 4, 1))
+          (d.date > new Date(2017, 0, 1)) & (d.date < new Date(2020, 3, 1))
         );
       });
 
       // Scale the range of the data
-      x.domain(
-        d3.extent(filtered, function (d) {
-          return d.date;
-        })
-      );
-      y.domain([
-        0,
-        d3.max(filtered, function (d) {
-          return d.close;
-        }),
-      ]);
+      x.domain(d3.extent(filtered, function(d) { return d.date; }));
+      y.domain(d3.extent(filtered, function(d) { return d.ratio; }));
 
       // Nest the entries by symbol
       var dataNest = d3
@@ -263,6 +271,15 @@
             return "translate(" + mouse[0] + "," + pos.y + ")";
           });
         });
+
+      var xAxis = svg
+        .append("g")
+        .attr("class", "x-axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // Add the Y Axis
+      var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y).tickFormat(function(d) { return d + "%"; }));
 
       var xAxis = svg
         .append("g")

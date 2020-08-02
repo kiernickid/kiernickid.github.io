@@ -38,6 +38,9 @@
 
     var parseDate = d3.timeParse("%B %d, %Y");
 
+    var formatPercent = d3.format("%"),
+    formatChange = function(x) { return formatPercent(x); }
+
     var x = d3.scaleTime().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
 
@@ -47,7 +50,7 @@
         return x(d.date);
       })
       .y(function (d) {
-        return y(d.close);
+        return y(d.ratio);
       });
 
     var svg = d3
@@ -58,10 +61,23 @@
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      var basevalues = d3
+        .map()
+        .set("WMT", 53)
+        .set("XOM", 44)
+        .set("AAPL", 1)
+        .set("BRKB", 48)
+        .set("AMZN", 13)
+        .set("UNH", 14)
+        .set("MCK", 35)
+        .set("CVS", 28)
+        .set("T", 50)
+        .set("ABC", 12);
+
     d3.csv("combined_stocks_10.csv", function (error, data) {
       data.forEach(function (d) {
         d.date = parseDate(d.date);
-        d.close = +d.close;
+        d.ratio = ((d.close / basevalues.get(d.symbol)) - 1) * 100;
       });
 
       var filtered = data.filter(function (d) {
@@ -71,17 +87,8 @@
       });
 
       // Scale the range of the data
-      x.domain(
-        d3.extent(filtered, function (d) {
-          return d.date;
-        })
-      );
-      y.domain([
-        0,
-        d3.max(filtered, function (d) {
-          return d.close;
-        }),
-      ]);
+      x.domain(d3.extent(filtered, function(d) { return d.date; }));
+      y.domain(d3.extent(filtered, function(d) { return d.ratio; }));
 
       // Nest the entries by symbol
       var dataNest = d3
@@ -272,8 +279,14 @@
         .call(d3.axisBottom(x));
 
       // Add the Y Axis
-      var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
-
+      var yAxis = svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y)
+      .tickFormat(function (d) {
+      if ((d / 1000) >= 1) {
+        d = d / 1000 + "K%";
+      } else {
+        d = d + "%"
+      }
+      return d;}));
       svg
         .append("text")
         .attr("transform", "translate(" + 110 + " ," + 100 + ")")
